@@ -47,7 +47,7 @@ namespace HighFpsPhysicsPlugin
 
             this.CommandManager.AddHandler(commandName, new CommandInfo(OnCommand)
             {
-                HelpMessage = "Toggles the physics change on/off. \nIt's off on boot for crash safety (if it were to crash you wouldn't want it on by default).\n If you disable the plugin you need to reboot the game to make it work again."
+                HelpMessage = "Toggles the physics change on/off. \nIt's off on boot for crash safety (if it were to crash you wouldn't want it on by default).\n If you disable (not toggle) the plugin you need to reboot the game to make it work again."
             });
 
             //this.PluginInterface.UiBuilder.Draw += DrawUI;
