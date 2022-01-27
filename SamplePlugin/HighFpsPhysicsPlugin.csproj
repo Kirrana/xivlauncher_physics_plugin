@@ -4,7 +4,7 @@
     <Authors>Kirrana</Authors>
     <Company></Company>
     <Version>0.6.0.8</Version>
-    <Description>Simple plugin that cuts the physics refresh rate in half, making physics (kinda) work at high fps.</Description>
+    <Description>Simple plugin that cuts the physics' refresh rate in half, making physics (kinda) work at high fps.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Kirrana/xivlauncher_physics_plugin</PackageProjectUrl>
   </PropertyGroup>
@@ -21,7 +21,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Content Include="..\Data\HighFpsPhysicsPlugin.json">
+    <Content Include="..\SamplePlugin\HighFpsPhysicsPlugin.json">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
   </ItemGroup>
