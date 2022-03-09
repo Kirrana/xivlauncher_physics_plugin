@@ -81,9 +81,10 @@ namespace HighFpsPhysicsPlugin
 
 
             var physicsUpdateIfAddr =
-                this.sigScanner.ScanText("7A 06 0F 84 37 09 00 00 0F B6 81 F8 00 00 00 48 89 9C 24 D8 01 00 00");  //Address to appropriate if statement to hijack inside the physics function
+                this.sigScanner.ScanText("7A 06 0F 84 ?? ?? ?? ?? 0F B6 ?? ?? ?? ?? ?? 48 89 ?? ?? ?? ?? ?? ?? 48"); //"7A 06 0F 84 37 09 00 00 0F B6"); //81 F8 00 00 00 48 89 9C 24 D8 01 00 00");  //Address to appropriate if statement to hijack inside the physics function
             var oncePerFrameAddr =
-                this.sigScanner.ScanText("48 8B 05 2B 9B 9C 01 F3 0F 10 88 B8 16 00 00 F3 0F 58 8B 90 58 00 00");  //Address to appropriate place in main update function (which runs once per frame) to hijack
+                //this.sigScanner.ScanText("48 8B 05 2B 9B 9C 01 F3 0F 10 88 B8 16 00 00 F3 0F 58 8B 90 58 00 00");  //Address to appropriate place in main update function (which runs once per frame) to hijack
+                this.sigScanner.ScanText("48 ?? ?? e8 ?? ?? ?? ?? e8 ?? ?? ?? ?? 84 ?? 74 ?? e8  ?? ??  ?? ?? 48 ?? ?? e8  ?? ??  ?? ?? e8 ?? ??  ?? ?? 84 ?? 74 ?? e8 ?? ?? ?? ?? 48 ?? ?? e8 ?? ?? ?? ?? e8 ?? ?? ?? ?? 48 ?? ?? 74 ?? e8");
             //PluginLog.Log($"physics if addr: {physicsUpdateIfAddr.ToInt64():X}");
             var returnNormalAddr = new IntPtr(physicsUpdateIfAddr.ToInt64() + 8);   //Return location after doing "if part" of injected code, if not skipping physics
             var returnSkipAddr = new IntPtr(physicsUpdateIfAddr.ToInt64() + 0x93F); // Return location if skipping physics (it's the target of a jump instruction near returnNormalAddr)  TODO: This is just an offset, maybe scan instead :)
