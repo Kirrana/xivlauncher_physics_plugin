@@ -3,22 +3,22 @@
   <PropertyGroup>
     <Authors>Kirrana</Authors>
     <Company></Company>
-    <Version>0.6.0.8</Version>
+    <Version>0.6.2.0</Version>
     <Description>Simple plugin that cuts the physics' refresh rate in half, making physics (kinda) work at high fps.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Kirrana/xivlauncher_physics_plugin</PackageProjectUrl>
   </PropertyGroup>
 
-  <PropertyGroup>
-    <TargetFramework>net5.0-windows</TargetFramework>
-    <Platforms>x64</Platforms>
-    <Nullable>enable</Nullable>
-    <LangVersion>latest</LangVersion>
-    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
-    <ProduceReferenceAssembly>false</ProduceReferenceAssembly>
-    <AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
-    <OutputPath>$(AppData)\XIVLauncher\devPlugins\HighFpsPhysicsPlugin\</OutputPath>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>net6.0-windows</TargetFramework>
+		<Platforms>x64</Platforms>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
+		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+		<OutputPath>$(AppData)\XIVLauncher\devPlugins\HighFpsPhysicsPlugin\</OutputPath>
+	</PropertyGroup>
 
   <ItemGroup>
     <Content Include="..\SamplePlugin\HighFpsPhysicsPlugin.json">
@@ -31,7 +31,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.5" />
+    <PackageReference Include="DalamudPackager" Version="2.1.8" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
       <Private>false</Private>
