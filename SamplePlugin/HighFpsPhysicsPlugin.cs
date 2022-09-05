@@ -177,7 +177,7 @@ namespace HighFpsPhysicsPlugin
             }
             else
             {
-                Print("Enablind Physics Fix");
+                Print("Enabling Physics Fix");
                 this.physFuncHook.Enable();
                 this.oncePerFrameHook.Enable();
             }
