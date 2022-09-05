@@ -7,6 +7,8 @@ using Dalamud.Logging;
 using Dalamud.Memory;
 using System.Reflection;
 using System;
+using Dalamud.Game.Gui;
+using Dalamud.Game.Text.SeStringHandling;
 
 namespace HighFpsPhysicsPlugin
 {
@@ -26,6 +28,7 @@ namespace HighFpsPhysicsPlugin
         private CommandManager CommandManager { get; init; }
         private Configuration Configuration { get; init; }
         private PluginUI PluginUi { get; init; }
+        private ChatGui ChatGui { get; init; }
         [PluginService] private SigScanner sigScanner { get; set; }
 
         AsmHook oncePerFrameHook; //Used to inject the "every 2nd frame variable"
@@ -33,10 +36,12 @@ namespace HighFpsPhysicsPlugin
 
         public HighFpsPhysicsPlugin(
             [RequiredVersion("1.0")] DalamudPluginInterface pluginInterface,
-            [RequiredVersion("1.0")] CommandManager commandManager)
+            [RequiredVersion("1.0")] CommandManager commandManager,
+            [RequiredVersion("1.0")] ChatGui chatGui)
         {
             this.PluginInterface = pluginInterface;
             this.CommandManager = commandManager;
+            this.ChatGui = chatGui;
 
 
             this.Configuration = this.PluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
@@ -166,11 +171,13 @@ namespace HighFpsPhysicsPlugin
             //Toggles hooks on/off when command is ran.
             if(this.oncePerFrameHook.IsEnabled || this.physFuncHook.IsEnabled)
             {
+                Print("Disabling Physics Fix");
                 this.oncePerFrameHook.Disable();
                 this.physFuncHook.Disable();
             }
             else
             {
+                Print("Enablind Physics Fix");
                 this.physFuncHook.Enable();
                 this.oncePerFrameHook.Enable();
             }
@@ -184,6 +191,17 @@ namespace HighFpsPhysicsPlugin
         private void DrawConfigUI()
         {
            // this.PluginUi.SettingsVisible = true;
+        }
+
+        public void Print(string message)
+        {
+            var stringBuilder = new SeStringBuilder();
+            stringBuilder.AddUiForeground(45);
+            stringBuilder.AddText($"[HighFPSPhysics] ");
+            stringBuilder.AddUiForegroundOff();
+            stringBuilder.AddText(message);
+
+            ChatGui.Print(stringBuilder.BuiltString);
         }
     }
 }
