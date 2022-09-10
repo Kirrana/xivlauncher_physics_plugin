@@ -1,72 +1,66 @@
 ﻿using ImGuiNET;
-using System;
 using System.Numerics;
+using Dalamud.Interface;
+using Dalamud.Interface.Windowing;
 
-namespace HighFpsPhysicsPlugin
+namespace HighFpsPhysicsPlugin;
+
+internal class ConfigurationWindow : Window
 {
-    // It is good to have this be disposable in general, in case you ever need it
-    // to do any cleanup
-    class PluginUI : IDisposable
+    private static readonly Vector4 Orange = new(1.0f, 165.0f / 255.0f, 0.0f, 1.0f);
+    private static readonly Vector4 Green = new(0.0f, 1.0f, 0.0f, 1.0f);
+    private static readonly Vector4 Red = new(1.0f, 0.0f, 0.0f, 1.0f);
+
+    public ConfigurationWindow() : base("HighFPSPhysics - Configuration")
     {
-        private Configuration configuration;
-
-
-        // this extra bool exists for ImGui, since you can't ref a property
-        private bool visible = false;
-        public bool Visible
+        SizeConstraints = new WindowSizeConstraints
         {
-            get { return this.visible; }
-            set { this.visible = value; }
+            MinimumSize = new Vector2(275, 200),
+            MaximumSize = new Vector2(275,200)
+        };
+
+        Flags |= ImGuiWindowFlags.NoResize;
+    }
+
+    public override void Draw()
+    {
+        ImGui.TextColored(Orange, "Warning! This plugin may cause crashing");
+        ImGui.TextColored(Orange, "If you experience issues, remove the plugin");
+
+        ImGuiHelpers.ScaledDummy(15.0f);
+
+        if (ImGui.Checkbox("Enable On Startup", ref Service.Settings.EnableOnStartup))
+        {
+            Service.Settings.Save();
         }
 
-        private bool settingsVisible = false;
-        public bool SettingsVisible
+        ImGuiHelpers.ScaledDummy(15.0f);
+
+        ImGui.Text("High FPS Fix is");
+        ImGui.SameLine();
+
+        if (Service.PhysicsModification.GetStatus())
         {
-            get { return this.settingsVisible; }
-            set { this.settingsVisible = value; }
+            ImGui.TextColored(Green, "Enabled");
+        }
+        else
+        {
+            ImGui.TextColored(Red, "Disabled");
         }
 
-        // passing in the image here just for simplicity
-        public PluginUI(Configuration configuration)
+        if (Service.PhysicsModification.GetStatus())
         {
-            this.configuration = configuration;
-        }
-
-        public void Dispose()
-        {
-        }
-
-        public void Draw()
-        {
-            // This is our only draw handler attached to UIBuilder, so it needs to be
-            // able to draw any windows we might have open.
-            // Each method checks its own visibility/state to ensure it only draws when
-            // it actually makes sense.
-            // There are other ways to do this, but it is generally best to keep the number of
-            // draw delegates as low as possible.
-
-            DrawMainWindow();
-            DrawSettingsWindow();
-        }
-
-        public void DrawMainWindow()
-        {
-            if(true)
-            //if (!Visible)
+            if (ImGui.Button("Disable", ImGuiHelpers.ScaledVector2(75.0f, 23.0f)))
             {
-                return;
+                Service.PhysicsModification.Disable();
             }
-
         }
-
-        public void DrawSettingsWindow()
+        else
         {
-            if(true)
-            //if (!SettingsVisible)
+            if (ImGui.Button("Enable", ImGuiHelpers.ScaledVector2(75.0f, 23.0f)))
             {
-                return;
+                Service.PhysicsModification.Enable();
             }
-
         }
     }
 }
