@@ -2,28 +2,17 @@
 using Dalamud.Plugin;
 using System;
 
-namespace HighFpsPhysicsPlugin
+namespace HighFpsPhysicsPlugin;
+
+[Serializable]
+public class Configuration : IPluginConfiguration
 {
-    [Serializable]
-    public class Configuration : IPluginConfiguration
-    {
-        public int Version { get; set; } = 0;
+    public int Version { get; set; } = 1;
 
-        public bool SomePropertyToBeSavedAndWithADefault { get; set; } = true;
+    public int UpdatesToSkip = 2;
+    public bool EnableOnStartup = false;
 
-        // the below exist just to make saving less cumbersome
-
-        [NonSerialized]
-        private DalamudPluginInterface? pluginInterface;
-
-        public void Initialize(DalamudPluginInterface pluginInterface)
-        {
-            this.pluginInterface = pluginInterface;
-        }
-
-        public void Save()
-        {
-            this.pluginInterface!.SavePluginConfig(this);
-        }
-    }
+    private DalamudPluginInterface? pluginInterface;
+    public void Initialize(DalamudPluginInterface pluginInterface) => this.pluginInterface = pluginInterface;
+    public void Save() => this.pluginInterface!.SavePluginConfig(this);
 }
