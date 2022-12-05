@@ -60,6 +60,17 @@ public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
             case "off":
                 Service.PhysicsModification.Disable();
                 break;
+
+            case "t":
+                if (Service.PhysicsModification.GetStatus())
+                {
+                    Service.PhysicsModification.Disable();
+                }
+                else
+                {
+                    Service.PhysicsModification.Enable();
+                }
+                break;
         }
     }
 }
