@@ -26,7 +26,8 @@ public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
         {
             HelpMessage = "Open Configuration Window\n" +
                           "/physics on - Enable Physics Change\n" +
-                          "/physics off - Disable Physics Change"
+                          "/physics off - Disable Physics Change\n" +
+                          "/physics t - Toggle Physics Change"
         });
 
         Service.WindowSystem.AddWindow(new ConfigurationWindow());
