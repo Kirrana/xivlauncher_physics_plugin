@@ -49,7 +49,7 @@ internal class Physics : IDisposable
 
     public void Enable()
     {
-        Service.Chat.Print($"Enabling Physics Modification.");
+        Service.Chat.Print("Enabling Physics Modification");
         physicsSkipHook?.Enable();
     }
 

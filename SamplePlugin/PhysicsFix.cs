@@ -184,7 +184,7 @@ internal class PhysicsFix : IDisposable
 
     public void Enable()
     {
-        Chat.Print($"Enabling Physics Modification.");
+        Chat.Print("Enabling Physics Modification");
         oncePerFrameHook?.Enable();
         physFuncHook?.Enable();
     }
