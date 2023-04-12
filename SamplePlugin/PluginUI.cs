@@ -2,6 +2,7 @@
 using System.Numerics;
 using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
+using System.Linq;
 
 namespace HighFpsPhysicsPlugin;
 
@@ -15,8 +16,8 @@ internal class ConfigurationWindow : Window
     {
         SizeConstraints = new WindowSizeConstraints
         {
-            MinimumSize = new Vector2(275, 200),
-            MaximumSize = new Vector2(275,200)
+            MinimumSize = new Vector2(345, 230),
+            MaximumSize = new Vector2(345, 230)
         };
 
         Flags |= ImGuiWindowFlags.NoResize;
@@ -62,5 +63,24 @@ internal class ConfigurationWindow : Window
                 Service.PhysicsModification.Enable();
             }
         }
+
+        if (ImGui.Combo("FPS Divider Value",
+                        ref Service.Settings.SkipUpdatesOptionsListSelectedIndex,
+                        Service.Settings.SkipUpdateOptionsList.Select(x => $"1/{x}").ToArray(),
+                        Service.Settings.SkipUpdateOptionsList.Length))
+        {
+            Service.PhysicsModification.UpdateFramesToSkip();
+        }
+
+#if DEBUG
+        if (ImGui.Button("Print Debug", ImGuiHelpers.ScaledVector2(125.0f, 23.0f)))
+        {
+            Service.PhysicsModification.DebugMessage();
+        }
+        if (ImGui.Button("Print Counter", ImGuiHelpers.ScaledVector2(125.0f, 23.0f)))
+        {
+            Service.PhysicsModification.CounterDebugMessage();
+        }
+#endif
     }
 }

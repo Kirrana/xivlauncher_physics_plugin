@@ -36,7 +36,7 @@ internal class Physics : IDisposable
     {
         callsSinceLastSkip += 1;
 
-        if (callsSinceLastSkip > Service.Settings.UpdatesToSkip)
+        if (callsSinceLastSkip > Service.Settings.FramesPerPhysicsUpdate)
         {
             callsSinceLastSkip = 0;
             return physicsSkipHook!.Original(a1, a2);
@@ -49,7 +49,7 @@ internal class Physics : IDisposable
 
     public void Enable()
     {
-        Service.Chat.Print("Enabling Physics Modification");
+        Service.Chat.Print($"Enabling Physics Modification.");
         physicsSkipHook?.Enable();
     }
 

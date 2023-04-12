@@ -3,8 +3,8 @@
   <PropertyGroup>
     <Authors>Kirrana</Authors>
     <Company></Company>
-    <Version>7.0.0</Version>
-    <Description>Simple plugin that cuts the physics' refresh rate in half, making physics (kinda) work at high (120) fps.</Description>
+    <Version>7.1.0</Version>
+    <Description>Simple plugin that divides the physics' refresh rate, making physics (kinda) work at high fps.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Kirrana/xivlauncher_physics_plugin</PackageProjectUrl>
   </PropertyGroup>
@@ -17,6 +17,7 @@
 		<AllowUnsafeBlocks>true</AllowUnsafeBlocks>
 		<ProduceReferenceAssembly>false</ProduceReferenceAssembly>
 		<AppendTargetFrameworkToOutputPath>false</AppendTargetFrameworkToOutputPath>
+    <!--TO BE DEPRECATED-->
 		<OutputPath>$(AppData)\XIVLauncher\devPlugins\HighFpsPhysicsPlugin\</OutputPath>
 		<RestorePackagesWithLockFile>true</RestorePackagesWithLockFile>
 	</PropertyGroup>
@@ -32,7 +33,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="DalamudPackager" Version="2.1.10" />
+    <PackageReference Include="DalamudPackager" Version="2.1.11" />
     <Reference Include="FFXIVClientStructs">
       <HintPath>$(DalamudLibPath)FFXIVClientStructs.dll</HintPath>
       <Private>false</Private>
