@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using Dalamud.Hooking;
 using Dalamud.Memory;
 using Dalamud.Utility.Signatures;
@@ -160,10 +159,8 @@ internal class PhysicsFix : IDisposable
         oncePerFrameHook?.Disable();
         physFuncHook?.Disable();
 
-        byte framesPerUpdate = (byte)(Service.Settings.FramesPerPhysicsUpdate);
-
         // change our add index to add the new amount next time counter hits 0
-        decVar[counterResetAddIndex] = framesPerUpdate;
+        decVar[counterResetAddIndex] = (byte)(Service.Settings.FramesPerPhysicsUpdate);
         MemoryHelper.WriteRaw(countHookMemAddr, decVar);
 
         oncePerFrameHook?.Enable();
