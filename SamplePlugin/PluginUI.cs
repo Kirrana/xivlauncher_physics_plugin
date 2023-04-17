@@ -70,6 +70,7 @@ internal class ConfigurationWindow : Window
                         Service.Settings.SkipUpdateOptionsList.Length))
         {
             Service.PhysicsModification.UpdateFramesToSkip();
+            Service.Settings.Save();
         }
 
 #if DEBUG
