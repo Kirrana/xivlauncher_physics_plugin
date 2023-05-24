@@ -77,8 +77,8 @@ internal class PhysicsFix : IDisposable
         //Return location after doing "if part" of injected code, if not skipping physics
         var returnNormalAddr = new IntPtr(physicsUpdateIfAddr.ToInt64() + 8);
         
-        // Return location if skipping physics (it's the target of a jump instruction near returnNormalAddr)  TODO: This is just an offset, maybe scan instead :)
-        var returnSkipAddr = new IntPtr(physicsUpdateIfAddr.ToInt64() + 0x93F); 
+        // Return location if skipping physics (it's the target of a jump instruction near returnNormalAddr)  TODO: This is just an offset, maybe scan/calculate from jump instruction instead :)
+        var returnSkipAddr = new IntPtr(physicsUpdateIfAddr.ToInt64() + 0x96F);
 
         //Byte array that will hold opcodes to be put into new memory, stuff below is what it contains.
         var newMemOpcodes = new byte[100]; 
