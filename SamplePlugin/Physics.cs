@@ -17,14 +17,16 @@ internal class Physics : IDisposable
     [Signature("48 8B C4 48 89 48 08 55 48 81 EC", DetourName = nameof(PhysicsSkip))]
     private readonly Hook<PhysicsSkipDelegate>? _physicsSkipHook = null!;
 
+    private TimeSlice _currentSlice;
     private bool _executePhysics = false;
     private long _expectedFrameTime;
-    private long _lastExecutedTick = 0;
 
     public Physics(Framework framework)
     {
         SignatureHelper.Initialise(this);
         _framework = framework;
+
+        _currentSlice = new(DateTime.Now.Ticks, _expectedFrameTime);
 
         if (Service.Settings.EnableOnStartup)
         {
@@ -64,24 +66,18 @@ internal class Physics : IDisposable
 
     public void RecalculateExpectedFrametime()
     {
-        var physicsFrameTime = (long)((1f / (Service.Settings.TargetFPS)) * TimeSpan.TicksPerSecond);
-        _expectedFrameTime = (long)(physicsFrameTime - ((physicsFrameTime / Service.Settings.TargetFPS) * Service.Settings.PhysicsFrameTolerance));
+        _expectedFrameTime = (long)((1 / (Service.Settings.TargetFPS)) * TimeSpan.TicksPerSecond);
     }
 
     private void Framework_Update(Framework framework)
     {
         var currentTick = DateTime.Now.Ticks;
-        var frameTickDelta = currentTick - _lastExecutedTick;
+        while (currentTick > _currentSlice!.EndTick)
+        {
+            _currentSlice.Update(_expectedFrameTime);
+        }
 
-        if (frameTickDelta >= _expectedFrameTime)
-        {
-            _lastExecutedTick = currentTick;
-            _executePhysics = true;
-        }
-        else
-        {
-            _executePhysics = false;
-        }
+        _executePhysics = _currentSlice.ShouldRunPhysics();
     }
 
     private IntPtr PhysicsSkip(IntPtr a1, IntPtr a2)
@@ -93,6 +89,34 @@ internal class Physics : IDisposable
         else
         {
             return _frameworkPointer;
+        }
+    }
+
+    private record TimeSlice
+    {
+        public TimeSlice(long startTick, long sliceLength)
+        {
+            _startTick = startTick;
+            _sliceLength = sliceLength;
+        }
+
+        private long _sliceLength;
+        private long _startTick;
+        private bool _ranPhysics;
+        public long EndTick => _startTick + _sliceLength;
+
+        public void Update(long sliceLength)
+        {
+            _startTick = EndTick + 1;
+            _sliceLength = sliceLength;
+            _ranPhysics = false;
+        }
+
+        public bool ShouldRunPhysics()
+        {
+            if (_ranPhysics) return false;
+            _ranPhysics = true;
+            return true;
         }
     }
 }

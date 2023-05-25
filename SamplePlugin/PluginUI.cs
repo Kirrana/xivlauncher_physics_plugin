@@ -64,18 +64,6 @@ internal class ConfigurationWindow : Window
             }
         }
 
-        var tolerance = Service.Settings.PhysicsFrameTolerance;
-        if (ImGui.SliderInt("Frame Tolerance", ref tolerance, 0, 10))
-        {
-            Service.Settings.PhysicsFrameTolerance = tolerance;
-            Service.Settings.Save();
-            Service.PhysicsModification.RecalculateExpectedFrametime();
-        }
-        if (ImGui.IsItemHovered())
-        {
-            ImGui.SetTooltip("Sets the frames tolerance for physics calculation, typically requires no change.");
-        }
-
         var target_fps = Service.Settings.TargetFPS;
         if (ImGui.SliderFloat("Physics FPS", ref target_fps, 1, 120))
         {
