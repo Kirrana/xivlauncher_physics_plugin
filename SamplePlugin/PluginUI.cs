@@ -8,8 +8,8 @@ namespace HighFpsPhysicsPlugin;
 
 internal class ConfigurationWindow : Window
 {
-    private static readonly Vector4 Orange = new(1.0f, 165.0f / 255.0f, 0.0f, 1.0f);
     private static readonly Vector4 Green = new(0.0f, 1.0f, 0.0f, 1.0f);
+    private static readonly Vector4 Orange = new(1.0f, 165.0f / 255.0f, 0.0f, 1.0f);
     private static readonly Vector4 Red = new(1.0f, 0.0f, 0.0f, 1.0f);
 
     public ConfigurationWindow() : base("HighFPSPhysics - Configuration")
@@ -64,24 +64,29 @@ internal class ConfigurationWindow : Window
             }
         }
 
-        if (ImGui.Combo("FPS Divider Value",
-                        ref Service.Settings.SkipUpdatesOptionsListSelectedIndex,
-                        Service.Settings.SkipUpdateOptionsList.Select(x => $"1/{x}").ToArray(),
-                        Service.Settings.SkipUpdateOptionsList.Length))
+        var tolerance = Service.Settings.PhysicsFrameTolerance;
+        if (ImGui.SliderInt("Frame Tolerance", ref tolerance, 0, 10))
         {
-            Service.PhysicsModification.UpdateFramesToSkip();
+            Service.Settings.PhysicsFrameTolerance = tolerance;
             Service.Settings.Save();
+            Service.PhysicsModification.RecalculateExpectedFrametime();
+        }
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip("Sets the frames tolerance for physics calculation, typically requires no change.");
         }
 
-#if DEBUG
-        if (ImGui.Button("Print Debug", ImGuiHelpers.ScaledVector2(125.0f, 23.0f)))
+        var target_fps = Service.Settings.TargetFPS;
+        if (ImGui.SliderFloat("Physics FPS", ref target_fps, 1, 120))
         {
-            Service.PhysicsModification.DebugMessage();
+            Service.Settings.TargetFPS = target_fps;
+            Service.Settings.Save();
+            Service.PhysicsModification.RecalculateExpectedFrametime();
         }
-        if (ImGui.Button("Print Counter", ImGuiHelpers.ScaledVector2(125.0f, 23.0f)))
+        if (ImGui.IsItemHovered())
         {
-            Service.PhysicsModification.CounterDebugMessage();
+            ImGui.SetTooltip("Sets target physics FPS, default is 60.");
         }
-#endif
+
     }
 }
