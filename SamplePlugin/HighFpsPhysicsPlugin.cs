@@ -4,11 +4,6 @@ using Dalamud.Plugin;
 
 namespace HighFpsPhysicsPlugin;
 
-/**
-     * This plugin cuts the physics' refresh rate in half by effectively adding a "if(every second frame)"
-     * to the game's physics update. This is achieved through two injections, one which does the if
-     * check during the physics update and one which toggles the variable used for the if check.
-     */
 
 public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
 {

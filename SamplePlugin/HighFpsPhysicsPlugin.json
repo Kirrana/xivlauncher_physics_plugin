@@ -1,9 +1,9 @@
 {
   "Author": "Kirrana",
   "Name": "High FPS Physics Fix",
-  "Punchline": "Cuts the refresh rate of physics in half, \"fixing\" it at high fps.",
+  "Punchline": "Reduces the refresh rate of movement physics, \"fixing\" it at high fps.",
   "RepoUrl": "https://github.com/Kirrana/xivlauncher_physics_plugin",
-  "Description": "Causes the game's physics to work at higher FPS by making it update every second frame. \nToggle with '/physics t', or use on/off instead of t. \nMay cause excessive jiggling at lower FPS values. \nDisabling the entire plugin after turning on/off with /physics requires reboot to reenable.",
+  "Description": "Causes the game's physics to work at higher FPS by making it update every few frames. \nToggle with '/physics t', or use on/off instead of t. \nMay cause excessive jiggling at lower FPS values. \nDisabling the entire plugin after turning on/off with /physics requires reboot to reenable.",
   "InternalName": "HighFpsPhysicsPlugin",
   "ApplicableVersion": "any",
   "Tags": [
