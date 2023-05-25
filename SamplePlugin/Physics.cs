@@ -7,7 +7,6 @@ namespace HighFpsPhysicsPlugin;
 
 internal class Physics : IDisposable
 {
-    private const double FramesPerSecond = 60d;
     private readonly Framework _framework;
 
     //g_Client::System::Framework::Framework_InstancePointer2
@@ -65,8 +64,8 @@ internal class Physics : IDisposable
 
     public void RecalculateExpectedFrametime()
     {
-        var physicsFrameTime = (long)((1 / (FramesPerSecond)) * TimeSpan.TicksPerSecond);
-        _expectedFrameTime = (long)(physicsFrameTime - ((physicsFrameTime / FramesPerSecond) * Service.Settings.PhysicsFrameTolerance));
+        var physicsFrameTime = (long)((1f / (Service.Settings.TargetFPS)) * TimeSpan.TicksPerSecond);
+        _expectedFrameTime = (long)(physicsFrameTime - ((physicsFrameTime / Service.Settings.TargetFPS) * Service.Settings.PhysicsFrameTolerance));
     }
 
     private void Framework_Update(Framework framework)

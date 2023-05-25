@@ -75,5 +75,18 @@ internal class ConfigurationWindow : Window
         {
             ImGui.SetTooltip("Sets the frames tolerance for physics calculation, typically requires no change.");
         }
+
+        var target_fps = Service.Settings.TargetFPS;
+        if (ImGui.SliderFloat("Physics FPS", ref target_fps, 1, 120))
+        {
+            Service.Settings.TargetFPS = target_fps;
+            Service.Settings.Save();
+            Service.PhysicsModification.RecalculateExpectedFrametime();
+        }
+        if (ImGui.IsItemHovered())
+        {
+            ImGui.SetTooltip("Sets target physics FPS, default is 60.");
+        }
+
     }
 }
