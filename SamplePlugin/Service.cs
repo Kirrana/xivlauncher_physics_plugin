@@ -8,11 +8,10 @@ namespace HighFpsPhysicsPlugin;
 
 internal class Service
 {
-    [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
+    public static Physics PhysicsModification = null!;
+    public static Configuration Settings = null!;
+    public static WindowSystem WindowSystem = new("HighFPSPhysics");
     [PluginService] public static ChatGui Chat { get; private set; } = null!;
     [PluginService] public static CommandManager Commands { get; private set; } = null!;
-
-    public static Configuration Settings = null!;
-    public static PhysicsFix PhysicsModification = null!;
-    public static WindowSystem WindowSystem = new("HighFPSPhysics");
+    [PluginService] public static DalamudPluginInterface PluginInterface { get; private set; } = null!;
 }

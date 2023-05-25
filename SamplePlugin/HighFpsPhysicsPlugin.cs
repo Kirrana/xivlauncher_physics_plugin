@@ -1,26 +1,27 @@
-﻿using Dalamud.Game.Command;
+﻿using Dalamud.Game;
+using Dalamud.Game.Command;
 using Dalamud.Plugin;
 
 namespace HighFpsPhysicsPlugin;
 
 /**
-     * This plugin cuts the physics' refresh rate in half by effectively adding a "if(every second frame)" 
+     * This plugin cuts the physics' refresh rate in half by effectively adding a "if(every second frame)"
      * to the game's physics update. This is achieved through two injections, one which does the if
      * check during the physics update and one which toggles the variable used for the if check.
      */
+
 public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
 {
-    public string Name => "High FPS Physics Fix";
     private const string CommandName = "/physics";
 
-    public HighFpsPhysicsPlugin(DalamudPluginInterface pluginInterface)
+    public HighFpsPhysicsPlugin(DalamudPluginInterface pluginInterface, Framework framework)
     {
         pluginInterface.Create<Service>();
 
         Service.Settings = pluginInterface.GetPluginConfig() as Configuration ?? new Configuration();
         Service.Settings.Initialize(pluginInterface);
 
-        Service.PhysicsModification = new PhysicsFix();
+        Service.PhysicsModification = new Physics(framework);
 
         Service.Commands.AddHandler(CommandName, new CommandInfo(OnCommand)
         {
@@ -35,6 +36,8 @@ public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
         Service.PluginInterface.UiBuilder.Draw += Service.WindowSystem.Draw;
         Service.PluginInterface.UiBuilder.OpenConfigUi += () => Service.WindowSystem.Windows[0].IsOpen = true;
     }
+
+    public string Name => "High FPS Physics Fix";
 
     public void Dispose()
     {
