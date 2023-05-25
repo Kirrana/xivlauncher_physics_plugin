@@ -18,7 +18,6 @@ internal class Physics : IDisposable
     [Signature("48 8B C4 48 89 48 08 55 48 81 EC", DetourName = nameof(PhysicsSkip))]
     private readonly Hook<PhysicsSkipDelegate>? _physicsSkipHook = null!;
 
-    private long _currentTick = 0;
     private bool _executePhysics = false;
     private long _expectedFrameTime;
     private long _lastExecutedTick = 0;
@@ -72,12 +71,12 @@ internal class Physics : IDisposable
 
     private void Framework_Update(Framework framework)
     {
-        _currentTick = DateTime.Now.Ticks;
-        var frameTickDelta = _currentTick - _lastExecutedTick;
+        var currentTick = DateTime.Now.Ticks;
+        var frameTickDelta = currentTick - _lastExecutedTick;
 
         if (frameTickDelta >= _expectedFrameTime)
         {
-            _lastExecutedTick = _currentTick;
+            _lastExecutedTick = currentTick;
             _executePhysics = true;
         }
         else
