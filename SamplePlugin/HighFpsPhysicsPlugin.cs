@@ -1,6 +1,7 @@
 ﻿using Dalamud.Game;
 using Dalamud.Game.Command;
 using Dalamud.Plugin;
+using Dalamud.Plugin.Services;
 
 namespace HighFpsPhysicsPlugin;
 
@@ -9,7 +10,7 @@ public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
 {
     private const string CommandName = "/physics";
 
-    public HighFpsPhysicsPlugin(DalamudPluginInterface pluginInterface, Framework framework)
+    public HighFpsPhysicsPlugin(DalamudPluginInterface pluginInterface, IFramework framework)
     {
         pluginInterface.Create<Service>();
 

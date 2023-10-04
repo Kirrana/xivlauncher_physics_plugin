@@ -2,12 +2,13 @@
 using Dalamud.Game;
 using Dalamud.Hooking;
 using Dalamud.Utility.Signatures;
+using Dalamud.Plugin.Services;
 
 namespace HighFpsPhysicsPlugin;
 
 internal class Physics : IDisposable
 {
-    private readonly Framework _framework;
+    private readonly IFramework _framework;
 
     //g_Client::System::Framework::Framework_InstancePointer2
     [Signature("48 8B 05 ?? ?? ?? ?? F3 0F 10 B0 ?? ?? ?? ?? F3 41 0F 5D F2")]
@@ -21,9 +22,9 @@ internal class Physics : IDisposable
     private bool _executePhysics = false;
     private long _expectedFrameTime;
 
-    public Physics(Framework framework)
+    public Physics(IFramework framework)
     {
-        SignatureHelper.Initialise(this);
+        Service.GameInteropProvider.InitializeFromAttributes(this);
         _framework = framework;
 
         _currentSlice = new(DateTime.Now.Ticks, _expectedFrameTime);
@@ -69,7 +70,7 @@ internal class Physics : IDisposable
         _expectedFrameTime = (long)((1 / (Service.Settings.TargetFPS)) * TimeSpan.TicksPerSecond);
     }
 
-    private void Framework_Update(Framework framework)
+    private void Framework_Update(IFramework framework)
     {
         var currentTick = DateTime.Now.Ticks;
         while (currentTick > _currentSlice!.EndTick)
