@@ -8,11 +8,11 @@ namespace HighFpsPhysicsPlugin;
 public class Configuration : IPluginConfiguration
 {
     public bool EnableOnStartup = false;
-    private DalamudPluginInterface? pluginInterface;
+    private IDalamudPluginInterface? pluginInterface;
     public float TargetFPS { get; set; } = 60f;
     public int Version { get; set; } = 2;
 
-    public void Initialize(DalamudPluginInterface pluginInterface) => this.pluginInterface = pluginInterface;
+    public void Initialize(IDalamudPluginInterface pluginInterface) => this.pluginInterface = pluginInterface;
 
     public void Save() => this.pluginInterface!.SavePluginConfig(this);
 }

@@ -10,7 +10,7 @@ public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
 {
     private const string CommandName = "/physics";
 
-    public HighFpsPhysicsPlugin(DalamudPluginInterface pluginInterface, IFramework framework)
+    public HighFpsPhysicsPlugin(IDalamudPluginInterface pluginInterface, IFramework framework)
     {
         pluginInterface.Create<Service>();
 

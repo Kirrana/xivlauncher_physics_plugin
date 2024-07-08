@@ -9,14 +9,12 @@ namespace HighFpsPhysicsPlugin;
 internal class Physics : IDisposable
 {
     private readonly IFramework _framework;
-
-    //g_Client::System::Framework::Framework_InstancePointer2
-    [Signature("48 8B 05 ?? ?? ?? ?? F3 0F 10 B0 ?? ?? ?? ?? F3 41 0F 5D F2")]
-    private readonly IntPtr _frameworkPointer = IntPtr.Zero;
-
     //Client::Graphics::Physics::BoneSimulator_Update
-    [Signature("48 8B C4 48 89 48 08 55 48 81 EC", DetourName = nameof(PhysicsSkip))]
+    [Signature("48 8B C4 48 89 48 08 55 53 56 41 57", DetourName = nameof(PhysicsSkip))]
     private readonly Hook<PhysicsSkipDelegate>? _physicsSkipHook = null!;
+    //return call of above function
+    [Signature("C3 CC CC CC CC CC CC CC CC CC CC CC CC CC 40 53 55 57 41 54 41 56 48 83 EC 40 4C 89 AC 24 80 00 00 00")]
+    private readonly IntPtr _physicsReturn = IntPtr.Zero;
 
     private TimeSlice _currentSlice;
     private bool _executePhysics = false;
@@ -89,7 +87,7 @@ internal class Physics : IDisposable
         }
         else
         {
-            return _frameworkPointer;
+            return _physicsReturn;
         }
     }
 
