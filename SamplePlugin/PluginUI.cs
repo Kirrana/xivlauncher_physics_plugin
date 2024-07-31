@@ -26,8 +26,8 @@ internal class ConfigurationWindow : Window
 
     public override void Draw()
     {
-        ImGui.TextColored(Orange, "Warning! This plugin may cause crashing");
-        ImGui.TextColored(Orange, "If you experience issues, remove the plugin");
+        ImGui.TextColored(Orange, "This plugin may cause brief visual errors in cutscenes");
+        ImGui.TextColored(Orange, "If you experience issues, disable the plugin");
 
         ImGuiHelpers.ScaledDummy(15.0f);
 
