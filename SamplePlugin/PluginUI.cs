@@ -4,6 +4,7 @@ using Dalamud.Interface;
 using Dalamud.Interface.Windowing;
 using System.Linq;
 using Dalamud.Interface.Utility;
+using Dalamud.Plugin.Services;
 
 namespace HighFpsPhysicsPlugin;
 
@@ -78,4 +79,5 @@ internal class ConfigurationWindow : Window
         }
 
     }
+
 }
