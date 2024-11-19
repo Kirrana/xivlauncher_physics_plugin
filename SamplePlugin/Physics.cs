@@ -12,9 +12,6 @@ internal class Physics : IDisposable
     //Client::Graphics::Physics::BoneSimulator_Update
     [Signature("40 55 53 56 41 57 48 8D AC 24 ?? ?? ?? ?? 48 81 EC ?? ?? ?? ?? 44 0F 29 94 24", DetourName = nameof(PhysicsSkip))]
     private readonly Hook<PhysicsSkipDelegate>? _physicsSkipHook = null!;
-    //return call of above function
-    [Signature("C3 CC CC CC CC CC CC CC CC CC CC CC CC CC 40 53 55 57 41 54 41 56 48 83 EC 40 4C 89 AC 24 80 00 00 00")]
-    private readonly IntPtr _physicsReturn = IntPtr.Zero;
 
     private TimeSlice _currentSlice;
     private bool _executePhysics = false;
@@ -36,8 +33,8 @@ internal class Physics : IDisposable
         RecalculateExpectedFrametime();
     }
 
-    private delegate IntPtr PhysicsSkipDelegate(IntPtr a1, IntPtr a2);
-
+    private delegate void PhysicsSkipDelegate(nint a1, nint a2);
+    
     public void Disable()
     {
         Service.Chat.Print("Disabling Physics Modification");
@@ -79,15 +76,11 @@ internal class Physics : IDisposable
         _executePhysics = _currentSlice.ShouldRunPhysics();
     }
 
-    private IntPtr PhysicsSkip(IntPtr a1, IntPtr a2)
+    private void PhysicsSkip(nint a1, nint a2)
     {
         if (_executePhysics)
         {
-            return _physicsSkipHook!.Original(a1, a2);
-        }
-        else
-        {
-            return _physicsReturn;
+            _physicsSkipHook!.Original(a1, a2);
         }
     }
 
