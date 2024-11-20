@@ -3,7 +3,7 @@
   <PropertyGroup>
     <Authors>Kirrana</Authors>
     <Company></Company>
-    <Version>8.0.1.0</Version>
+    <Version>8.0.2.0</Version>
     <Description>Simple plugin that divides the physics' refresh rate, making physics (kinda) work at high fps.</Description>
     <Copyright></Copyright>
     <PackageProjectUrl>https://github.com/Kirrana/xivlauncher_physics_plugin</PackageProjectUrl>
