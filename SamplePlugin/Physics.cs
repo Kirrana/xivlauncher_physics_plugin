@@ -17,6 +17,8 @@ internal class Physics : IDisposable
     private bool _executePhysics = false;
     private long _expectedFrameTime;
 
+    public IFramework Framework => _framework;
+
     public Physics(IFramework framework)
     {
         Service.GameInteropProvider.InitializeFromAttributes(this);

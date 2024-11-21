@@ -71,6 +71,23 @@ public sealed class HighFpsPhysicsPlugin : IDalamudPlugin
                     Service.PhysicsModification.Enable();
                 }
                 break;
+
+            case "reset":
+                ResetPhysicsModification();
+                break;
         }
+    }
+
+
+    private void ResetPhysicsModification()
+    {
+        if (Service.PhysicsModification == null)
+            return;
+
+        Chat.Print("Resetting Physics Modification.");
+
+        IFramework framework = Service.PhysicsModification.Framework;
+        Service.PhysicsModification.Dispose();
+        Service.PhysicsModification = new Physics(framework);
     }
 }
